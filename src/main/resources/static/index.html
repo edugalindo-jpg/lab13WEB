@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClinic - Despliegue CI/CD</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+        }
+        .badge {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            margin: 0 0 0.5rem 0;
+            color: #1e3c72;
+            font-size: 1.8rem;
+        }
+        p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        a {
+            text-decoration: none;
+            background-color: #2a5298;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        a:hover {
+            background-color: #1e3c72;
+        }
+        a.secondary {
+            background-color: #f0f4f8;
+            color: #2a5298;
+            border: 1px solid #d0dbe5;
+        }
+        a.secondary:hover {
+            background-color: #e2e8f0;
+        }
+        .footer {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="badge">● Sistema Activo en Puerto 8081</div>
+        <h1>PetClinic API & Web</h1>
+        <p>Despliegue automatizado mediante Pipeline CI/CD en Jenkins sobre instancia AWS EC2.</p>
+        <div class="links">
+            <a href="/vets">Ver Veterinarios (/vets)</a>
+            <a href="/owners">Ver Propietarios (/owners)</a>
+            <a href="/h2" class="secondary">Consola Base de Datos H2</a>
+        </div>
+        <div class="footer">
+            Desarrollado por Edu Edward Galindo Huaman
+        </div>
+    </div>
+</body>
+</html>
