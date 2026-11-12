@@ -3,91 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetClinic - Despliegue CI/CD</title>
+    <title>PetClinic Cloud | CI/CD Pipeline Dashboard</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #333;
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --primary: #38bdf8;
+            --accent: #818cf8;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 0;
         }
-        .card {
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 480px;
-            width: 90%;
-            text-align: center;
-        }
-        .badge {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            margin: 0 0 0.5rem 0;
-            color: #1e3c72;
-            font-size: 1.8rem;
-        }
-        p {
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-        .links {
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, var(--bg-dark) 60%);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
         }
-        a {
-            text-decoration: none;
-            background-color: #2a5298;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .title-group h1 {
+            font-size: 1.85rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.35rem;
+        }
+
+        .title-group p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
             font-weight: 600;
-            transition: background 0.3s;
         }
-        a:hover {
-            background-color: #1e3c72;
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-ring 2s infinite;
         }
-        a.secondary {
-            background-color: #f0f4f8;
-            color: #2a5298;
-            border: 1px solid #d0dbe5;
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
-        a.secondary:hover {
-            background-color: #e2e8f0;
+
+        .grid-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        .footer {
-            margin-top: 1.5rem;
+
+        .spec-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .spec-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            transition: all 0.25s ease;
+        }
+
+        .action-card:hover {
+            background: var(--card-hover);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(56, 189, 248, 0.2);
+        }
+
+        .action-card h3 {
+            color: var(--text-main);
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .action-card span {
+            color: var(--primary);
             font-size: 0.8rem;
-            color: #888;
+            font-family: monospace;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .action-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer strong {
+            color: var(--text-main);
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="badge">● Sistema Activo en Puerto 8081</div>
-        <h1>PetClinic API & Web</h1>
-        <p>Despliegue automatizado mediante Pipeline CI/CD en Jenkins sobre instancia AWS EC2.</p>
-        <div class="links">
-            <a href="/vets">Ver Veterinarios (/vets)</a>
-            <a href="/owners">Ver Propietarios (/owners)</a>
-            <a href="/h2" class="secondary">Consola Base de Datos H2</a>
+    <div class="container">
+        <div class="header">
+            <div class="title-group">
+                <h1>PetClinic Cloud Service</h1>
+                <p>Despliegue Automatizado CI/CD • Spring Boot &amp; Jenkins</p>
+            </div>
+            <div class="status-badge">
+                <div class="pulse"></div>
+                ONLINE • PUERTO 8081
+            </div>
         </div>
+
+        <div class="grid-specs">
+            <div class="spec-box">
+                <div class="spec-label">Servidor Cloud</div>
+                <div class="spec-value">AWS EC2 (3.15.6.183)</div>
+            </div>
+            <div class="spec-box">
+                <div class="spec-label">Orquestador</div>
+                <div class="spec-value">Jenkins Pipeline</div>
+            </div>
+            <div class="spec-box">
+                <div class="spec-label">Runtime</div>
+                <div class="spec-value">Java 21 • Maven</div>
+            </div>
+            <div class="spec-box">
+                <div class="spec-label">Base de Datos</div>
+                <div class="spec-value">H2 In-Memory DB</div>
+            </div>
+        </div>
+
+        <div class="section-title">Endpoints y Herramientas Disponibles</div>
+
+        <div class="actions">
+            <a href="/vets" class="action-card">
+                <h3>Veterinarios <span>GET /vets</span></h3>
+                <p>Consultar el listado completo de médicos veterinarios y especialidades.</p>
+            </a>
+            <a href="/owners" class="action-card">
+                <h3>Propietarios <span>GET /owners</span></h3>
+                <p>Acceder al registro de dueños y mascotas asociadas en el sistema.</p>
+            </a>
+            <a href="/h2" class="action-card">
+                <h3>Consola H2 <span>/h2</span></h3>
+                <p>Administrador web interactivo de la base de datos en tiempo real.</p>
+            </a>
+        </div>
+
         <div class="footer">
-            Desarrollado por Edu Edward Galindo Huaman
+            <div>Autor: <strong>Edu Edward Galindo Huaman</strong></div>
+            <div>Repo: <strong>edugalindo-jpg/lab13WEB</strong></div>
         </div>
     </div>
 </body>

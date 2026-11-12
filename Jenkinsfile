@@ -25,10 +25,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    fuser -k 8081/tcp || true
+                    pkill -f "petclinic.*jar" || true
                     sleep 3
-                    BUILD_ID=dontKillMe setsid nohup java -jar target/*.jar --server.port=8081 > /tmp/petclinic.log 2>&1 < /dev/null &
-                    sleep 5
+                    JENKINS_NODE_COOKIE=dontKillMe BUILD_ID=dontKillMe setsid nohup java -jar target/*.jar --server.port=8081 --spring.h2.console.settings.web-allow-others=true > /tmp/petclinic.log 2>&1 </dev/null &
+                    sleep 8
+                    tail -n 15 /tmp/petclinic.log
                 '''
             }
         }
