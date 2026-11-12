@@ -25,11 +25,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    # Detener cualquier proceso previo del JAR para liberar el puerto
-                    pkill -f '.*\\.jar' || true
+                    # Liberar el puerto 8081 en caso de que esté ocupado por un despliegue anterior
+                    fuser -k 8081/tcp || true
+                    sleep 2
 
-                    # Lanzar el nuevo ejecutable en segundo plano
-                    BUILD_ID=dontKillMe nohup java -jar target/*.jar > app.log 2>&1 &
+                    # Lanzar la aplicación en segundo plano en el puerto 8081
+                    BUILD_ID=dontKillMe nohup java -jar target/*.jar --server.port=8081 > app.log 2>&1 &
                 '''
             }
         }
